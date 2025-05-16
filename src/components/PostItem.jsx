@@ -20,12 +20,11 @@ const PostItem = ({id, course,title,description, image, creationDate}) => {
             <p>{shortDescription}</p>
             <div className="post__footer">
                 <PostCourse courseName={course.name} creationDate={creationDate} image={course.image}/>
-                <Link to={`/posts/courses/${course._id}`} className='btn course'>{course.name}</Link>
+                <Link to={`/posts/courses/${course.name}`} className='btn course'>{course.name}</Link>
             </div>
         </div>
     </article>
   )
-  console.log(course)
 }
 
 export default PostItem

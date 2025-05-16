@@ -1,13 +1,35 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Footer = () => {
+
+  const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/courses`)
+        setCourses(res.data.courses) // Asegúrate que la respuesta sea así
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchCourses()
+  }, [])
+
+
+
+
   return (
     <footer>
       <ul className="footer__courses">
-        <li><Link to="/posts/courses/:Tecnologia">Tecnología</Link></li>
-        <li><Link to="/posts/courses/:Biologia">Biología</Link></li>
-        <li><Link to="/posts/courses/:Taller">Taller</Link></li>
+        {courses.map(course => (
+          <li key={course._id}>
+            <Link to={`/posts/courses/${course.name}`}>{course.name}</Link>
+          </li>
+        ))}
       </ul>
 
     <div className="footer__copyright">

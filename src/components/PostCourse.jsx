@@ -20,4 +20,6 @@ const PostCourse = ({courseName, creationDate, image}) => {
   )
 }
 
+
+
 export default PostCourse
