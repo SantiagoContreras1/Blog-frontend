@@ -1,39 +1,39 @@
 import PostCourse from "../components/PostCourse";
+import DeleteButton from "../components/DeleteButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import EditComment from "./EditComment";
 
 const PostDetails = () => {
   const { id } = useParams();
-  const [post,setPost] = useState(null)
-
+  const [post, setPost] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/publications/${id}`)
-        setPost(res.data.publication)
+        const res = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/publications/${id}`
+        );
+        setPost(res.data.publication);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
+    };
 
-    fetchPost()
-  },[id])
+    fetchPost();
+  }, [id]);
 
-  if(!post){
+  if (!post) {
     return <p className="center">Loading...</p>;
   }
-
-
 
   return (
     <section className="post-detail">
       <div className="post-detail__container">
         <div className="post-detail__header">
-          <PostCourse 
+          <PostCourse
             courseName={post.course.name}
             creationDate={post.creationDate}
             image={post.course.image}
@@ -47,37 +47,45 @@ const PostDetails = () => {
 
         <h3>{post.name}</h3>
         <p>{post.description}</p>
-
       </div>
 
       <section>
-       <div className="post-detail__container">
-        <div className="post-detail__header">
+        <div className="post-detail__container">
+          <div className="post-detail__header">
+            <h1>Comments</h1>
 
-          <h1>Comments</h1>
+            <div className="post-detail__buttons">
+              <Link to={`/posts/${id}/comment`} className="btn sm primary">
+                Comment
+              </Link>
+            </div>
 
-          <div className="post-detail__buttons">
-            <Link to={`/posts/${id}/comment`} className="btn sm primary">
-              Comment
-            </Link>
+            <div>
+              {post.comments.length > 0 ? (
+                post.comments.map((comment, index) => (
+                  <div key={index} className="comment-item">
+                    <h4>{comment.name}</h4>
+
+                    <div
+                      dangerouslySetInnerHTML={{ __html: comment.comment }}
+                    />
+
+                    <Link to={`/comment/${comment._id}/edit`} className="btn edit">
+                      Edit
+                    </Link>
+
+                    <DeleteButton id={comment._id}/>
+                  </div>
+                ))
+              ) : (
+                <p className="center">No Comments yet.</p>
+              )}
+            
+
+            </div>
           </div>
-
-          <div className="">
-            {post.comments.length > 0 ? (
-              post.comments.map((comment,index) => (
-                <div key={index} className="comment-item">
-                  <h4>{comment.name}</h4>
-                  <div dangerouslySetInnerHTML={{ __html: comment.comment }} />
-                </div>
-              ))
-            ) : (<p className="center">No Comments yet.</p>)}
-          </div>
-
         </div>
-      </div>
       </section>
-
-
     </section>
   );
 };

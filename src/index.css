@@ -4,6 +4,7 @@
 :root{
     --color-primary: rgb(23, 127, 98);
     --color-white: #fff;
+    --color-blue: #6456ff;
     --color-red: #ff0000;
     --color-gray-100: hsl(220, 20%, 10%, 5%);
     --color-gray-200: hsl(220, 20%, 10%, 5%);
@@ -124,6 +125,13 @@ section{
 .btn.danger{
     background: var(--color-red);
     color: var(--color-white);
+}
+
+.btn.edit{
+    background: var(--color-blue);
+    color: var(--color-white);
+    margin-right: 2rem;
+    margin-bottom: 0.9rem;
 }
 
 .btn.hoover{
